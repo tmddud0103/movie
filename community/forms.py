@@ -1,7 +1,7 @@
 from django import forms
 from django.db.models import fields
 from .models import Community_review, Community_comment
-from accounts.models import Account
+from accounts.models import User
 
 class Community_reviewForm(forms.ModelForm):
     class Meta:
