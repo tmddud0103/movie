@@ -1,5 +1,5 @@
 from django.db import models
-from user.models import User
+from accounts.models import Account
 # Create your models here.
 
 class Community_review(models.Model):
@@ -7,7 +7,7 @@ class Community_review(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(Account, on_delete=models.CASCADE)
 
 
 class Community_comment(models.Model):
@@ -15,4 +15,4 @@ class Community_comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     review_id = models.ForeignKey(Community_review, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(Account, on_delete=models.CASCADE)
