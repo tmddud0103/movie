@@ -85,11 +85,11 @@ def onair(request):
     for i, title in enumerate(uls):
         temp = []
         tt = " ".join(title.get_text().split()[2:])
-        print(tt)
+        # print(tt)
         temp.extend([i + 1, tt])
         for j, title in enumerate(img):
             if temp[0] == j+1:
-                temp.append(title["src"])
+                temp.append(title["src"][:-15])
                 break
         movies.append(temp)
     context = {

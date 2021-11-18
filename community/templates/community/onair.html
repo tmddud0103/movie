@@ -1,17 +1,38 @@
 {% extends 'base.html' %}
 
 {% block body %}
-{% for movie in movies %}
-  {{movie.0}}
-  <hr>
-  {{movie.1}}
-  <hr>
-  {{movie.2}}
-  <hr>
-{% endfor %}
+<div class="row row-cols-1 row-cols-md-3 g-4">
+  {% for movie in movies %}
+    <div class="imgList_{{movie.0}}" data-bs-toggle="modal" data-bs-target="#exampleModal{{movie.0}}">
+    <div class="col">
+      <div class="card h-100">
+        <img src="{{movie.2}}" class="card-img-top" alt="..." width="400">
+        <div class="card-body">
+          <h3 class="card-title text-center">{{movie.1}}</h3>
+          {% comment %} <p class="card-text">{{movie.2}}</p> {% endcomment %}
+        </div>
+      </div>
+    </div>
+    </div>
 
-{% comment %} {% for img in imgs %}
-  {{img}}
-{% endfor %} {% endcomment %}
-  
+
+  <div class="modal fade" id="exampleModal{{movie.0}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <img src="{{movie.2}}" class="card-img-top" alt="..." >
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
 {% endblock %}
