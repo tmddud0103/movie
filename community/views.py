@@ -3,6 +3,8 @@ from django.views.decorators.http import require_POST, require_GET, require_http
 from django.contrib.auth.decorators import login_required
 from .models import Community_review, Community_comment
 from .forms import Community_reviewForm, Community_commentForm
+import requests
+from bs4 import BeautifulSoup
 # Create your views here.
 
 @require_safe
@@ -70,3 +72,27 @@ def comments_create(request, pk):
         return redirect('community:detail', community_review.pk)
 
     return redirect('community:index')
+
+
+def onair(request):
+    url = 'https://movie.naver.com/movie/running/current.naver'
+    res = requests.get(url)
+    data = BeautifulSoup(res.text, 'html.parser')
+    uls = data.find("ul", class_="lst_detail_t1").find_all("dt", class_="tit")
+    img = data.find("ul", class_="lst_detail_t1").find_all("img")
+    movies = []
+    
+    for i, title in enumerate(uls):
+        temp = []
+        tt = " ".join(title.get_text().split()[2:])
+        print(tt)
+        temp.extend([i + 1, tt])
+        for j, title in enumerate(img):
+            if temp[0] == j+1:
+                temp.append(title["src"])
+                break
+        movies.append(temp)
+    context = {
+        'movies':movies,
+    }
+    return render(request, 'community/onair.html', context)
