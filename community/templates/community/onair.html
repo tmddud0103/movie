@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block body %}
+{% for movie in movies %}
+  {{movie.0}}
+  <hr>
+  {{movie.1}}
+  <hr>
+  {{movie.2}}
+  <hr>
+{% endfor %}
+
+{% comment %} {% for img in imgs %}
+  {{img}}
+{% endfor %} {% endcomment %}
+  
+{% endblock %}
