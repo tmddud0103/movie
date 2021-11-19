@@ -2,8 +2,8 @@
 {% load bootstrap5 %}
 
 {% block body %}
-
-<h1>🐹 {{ profile_user.username }}'s profile</h1>
+{% comment %} 🐹 {% endcomment %}
+<h1>{{ profile_user.username }}'s profile</h1>
 <div class="d-flex align-items-center">
 <p style="margin:3.5rem; margin-left:0;">팔로워: {{ profile_user.followers.all|length }} | 팔로우: {{ profile_user.followings.all|length }} </p>
 <form action="{% url 'accounts:follow' profile_user.pk %}" method="POST">
@@ -15,6 +15,24 @@
     <input type="submit" value="follow"s tyle="margin:2rem 0;" class="btn"
     style="color: #fff; background-color: #ab36cf; border-color: #ab36cf;">
   {% endif %}
+
+
 </form>
 </div>
+  <hr>
+  <div class="row m-0 my-5 row-cols-1 row-cols-md-6 g-3">
+  {% for ids in usergenre.ids %} 
+    <form action="{% url 'accounts:prefer' profile_user.username ids.id %}" method="post">
+      {% csrf_token %}
+      {% if ids.isprefer == True %}
+        <button type="submit" class="btn btn-info btn-lg" id="inlineCheckbox{{ids.id}}" autocomplete="on">
+        {{ids.name}}</button>
+      {% else %}
+        <button type="submit" class="btn btn-light btn-lg" id="inlineCheckbox{{ids.id}}" autocomplete="on">
+        {{ids.name}}</button>
+      {% endif %}
+    </form>
+  {% endfor %}
+</div>
+  
 {% endblock body %}

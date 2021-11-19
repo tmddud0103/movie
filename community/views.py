@@ -81,7 +81,6 @@ def onair(request):
     uls = data.find("ul", class_="lst_detail_t1").find_all("dt", class_="tit")
     img = data.find("ul", class_="lst_detail_t1").find_all("img")
     movies = []
-    
     for i, title in enumerate(uls):
         temp = []
         tt = " ".join(title.get_text().split()[2:])
@@ -92,7 +91,15 @@ def onair(request):
                 temp.append(title["src"][:-15])
                 break
         movies.append(temp)
-    context = {
-        'movies':movies,
-    }
+    if len(movies) > 18:
+        context = {
+            'movies':movies[:18],
+        }
+    else:
+        context = {
+            'movies':movies,
+        }
     return render(request, 'community/onair.html', context)
+
+def recommend(request):
+    return render(request, 'community/recommend.html')

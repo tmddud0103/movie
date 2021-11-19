@@ -3,6 +3,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import get_object_or_404, redirect, render
 from accounts.forms import CustomUserCreationForm
 from django.contrib.auth import get_user_model, login as auth_login, logout as auth_logout
+from .models import User_genre
+from .genre_id import GENRE
 
 # Create your views here.
 def signup(request):
@@ -39,12 +41,14 @@ def logout(request):
 
 
 def profile(request, username):
-    # class 유저 전체다 가져옴
     User = get_user_model()
-    # instance username이 일치하는 경우
     profile_user = get_object_or_404(User, username=username)
+    genres = GENRE
+    usergenre = User_genre
     context = {
         'profile_user' : profile_user,
+        'genres' : genres,
+        'usergenre' : usergenre,
     }
     return render(request, 'accounts/profile.html', context)
 
@@ -63,3 +67,18 @@ def follow(request, pk):
 # follow() got an unexpected keyword argument 'username'
 # typeerror - pk가 와야하는데 username들어옴
 # 'User' object has no attribute 'followers'
+def prefer(request, username, id):
+    genre = User_genre.ids
+    User = get_user_model()
+    profile_user = get_object_or_404(User, username=username)
+    genres = GENRE
+    
+    for i in range(len(genre)):
+        if genre[i]['id'] == id:
+            if genre[i]['isprefer'] == True:
+                genre[i]['isprefer'] = False
+            else:
+                genre[i]['isprefer'] = True
+    print(genre)
+
+    return redirect('accounts:profile', profile_user.username)

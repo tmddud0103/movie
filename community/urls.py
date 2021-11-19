@@ -9,4 +9,5 @@ urlpatterns = [
     path('<int:pk>/', views.detail, name='detail'),
     path('<int:pk>/comment/create/', views.comments_create, name='comments_create'),
     path('onair/', views.onair, name='onair'),
+    path('recommend/', views.recommend, name="recommend"),
 ]

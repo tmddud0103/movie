@@ -1,14 +1,15 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<div class="row row-cols-1 row-cols-md-3 g-4">
+
+<div class="row m-0 my-5 row-cols-1 row-cols-md-6 g-3">
   {% for movie in movies %}
     <div class="imgList_{{movie.0}}" data-bs-toggle="modal" data-bs-target="#exampleModal{{movie.0}}">
     <div class="col">
       <div class="card h-100">
         <img src="{{movie.2}}" class="card-img-top" alt="..." width="400">
         <div class="card-body">
-          <h3 class="card-title text-center">{{movie.1}}</h3>
+          <h5 class="card-title overflow">{{movie.1}}</h5>
           {% comment %} <p class="card-text">{{movie.2}}</p> {% endcomment %}
         </div>
       </div>
@@ -20,19 +21,190 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <h5 class="modal-title" id="exampleModalLabel">{{movie.1}}</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <img src="{{movie.2}}" class="card-img-top" alt="..." >
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button onclick="window.open('https://www.megabox.co.kr/')" class="btn"><img src="../../photo/megabox.png" width="50"></button>
+          <button onclick="window.open('https://www.cgv.co.kr/')" type="button" class="btn"><img src="../../photo/cgv.png" width="50"></button>
+          <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
   </div>
   {% endfor %}
 </div>
+
+
+<h3>주변 영화관 찾기</h3>
+<input hidden=true type="text" id="sample4_postcode" placeholder="우편번호">
+<div class="row m-0">
+  <input class="col-8 form-control" type="text" oninput="getMap()" style="font-size: 1.8vw;" id="sample4_roadAddress" placeholder="도로명주소">
+  <input class="col-4 form-control btn btn-info" type="button" onclick="sample4_execDaumPostcode()" style="font-size: 1.8vw;" value="현재 위치 검색">
+</div>
+<input hidden=true type="text" id="sample4_jibunAddress" placeholder="지번주소">
+<span hidden=true id="guide" style="color:#999;display:none"></span>
+<input hidden=true type="text" id="sample4_detailAddress" placeholder="상세주소">
+<input hidden=true type="text" id="sample4_extraAddress" placeholder="참고항목">
+
+<div class="mt-3 mb-5" id="map" style="width:100;height:400px;"></div>
+
+
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+  //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
+  function sample4_execDaumPostcode() {
+      new daum.Postcode({
+          oncomplete: function(data) {
+              // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+              // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+              // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+              var roadAddr = data.roadAddress; // 도로명 주소 변수
+              var extraRoadAddr = ''; // 참고 항목 변수
+
+              // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+              // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+              if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                  extraRoadAddr += data.bname;
+              }
+              // 건물명이 있고, 공동주택일 경우 추가한다.
+              if(data.buildingName !== '' && data.apartment === 'Y'){
+                 extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+              }
+              // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+              if(extraRoadAddr !== ''){
+                  extraRoadAddr = ' (' + extraRoadAddr + ')';
+              }
+
+              // 우편번호와 주소 정보를 해당 필드에 넣는다.
+              document.getElementById('sample4_postcode').value = data.zonecode;
+              document.getElementById("sample4_roadAddress").value = roadAddr;
+              getMap();
+              document.getElementById("sample4_jibunAddress").value = data.jibunAddress;
+              
+              // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
+              if(roadAddr !== ''){
+                  document.getElementById("sample4_extraAddress").value = extraRoadAddr;
+              } else {
+                  document.getElementById("sample4_extraAddress").value = '';
+              }
+
+              var guideTextBox = document.getElementById("guide");
+              // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
+              if(data.autoRoadAddress) {
+                  var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
+                  guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
+                  guideTextBox.style.display = 'block';
+
+              } else if(data.autoJibunAddress) {
+                  var expJibunAddr = data.autoJibunAddress;
+                  guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
+                  guideTextBox.style.display = 'block';
+              } else {
+                  guideTextBox.innerHTML = '';
+                  guideTextBox.style.display = 'none';
+              }
+          }
+          
+      }).open();
+  }
+</script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2615713b85981a94d5a844d06342ae18&libraries=services"></script>
+<script>
+  function getMap() {
+    // 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
+    var infowindow = new kakao.maps.InfoWindow({zIndex:1});
+
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+      mapOption = {
+        center: new kakao.maps.LatLng(100.566826, 126.9786567), // 지도의 중심좌표
+        level: 5 // 지도의 확대 레벨
+      };  
+
+    // 지도를 생성합니다    
+    var map = new kakao.maps.Map(mapContainer, mapOption); 
+
+    var geocoder = new kakao.maps.services.Geocoder();
+
+    // 주소로 좌표를 검색합니다
+    var userAddress = document.getElementById("sample4_roadAddress").value
+    geocoder.addressSearch(userAddress, function(result, status) {
+
+      // 정상적으로 검색이 완료됐으면 
+      if (status === kakao.maps.services.Status.OK) {
+
+        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+        // 결과값으로 받은 위치를 마커로 표시합니다
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: coords
+        });
+
+        // 인포윈도우로 장소에 대한 설명을 표시합니다
+        var infowindow = new kakao.maps.InfoWindow({
+          content: '<div style="text-align:center;padding:1px;font-size:12px;">내 위치</div>'
+        });
+        infowindow.open(map, marker);
+
+        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+        map.setCenter(coords);
+      }
+    }); 
+
+    // 장소 검색 객체를 생성합니다
+    var ps = new kakao.maps.services.Places(); 
+
+    // 키워드로 장소를 검색합니다
+    var userAddress = document.getElementById("sample4_roadAddress").value
+    
+    ps.keywordSearch(`${userAddress} 영화관`, placesSearchCB, {category_group_code:'CT1'});
+
+    // 키워드 검색 완료 시 호출되는 콜백함수 입니다
+    function placesSearchCB (data, status, pagination) {
+      if (status === kakao.maps.services.Status.OK) {
+
+        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+        // LatLngBounds 객체에 좌표를 추가합니다
+        var bounds = new kakao.maps.LatLngBounds();
+
+        for (var i=0; i<data.length; i++) {
+          displayMarker(data[i]);    
+          bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+        }       
+      } 
+    }
+
+    // 지도에 마커를 표시하는 함수입니다
+    function displayMarker(place) {
+        
+      // 마커를 생성하고 지도에 표시합니다
+      var marker = new kakao.maps.Marker({
+        map: map,
+        position: new kakao.maps.LatLng(place.y, place.x) 
+      });
+
+      // 마커에 클릭이벤트를 등록합니다
+      kakao.maps.event.addListener(marker, 'click', function() {
+        // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
+        infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
+        infowindow.open(map, marker);
+        window.open('https://search.daum.net/search?nil_suggest=btn&w=tot&DA=SBC&q=' + place.place_name);
+      });
+    }
+  };
+</script>
+<style>
+.overflow{
+  width        : 180px;     /* 너비는 변경될수 있습니다. */
+  text-overflow: ellipsis;  /* 위에 설정한 100px 보다 길면 말줄임표처럼 표시합니다. */
+  white-space  : nowrap;    /* 줄바꿈을 하지 않습니다. */
+  overflow     : hidden; 
+  
+}
+</style>
 {% endblock %}
