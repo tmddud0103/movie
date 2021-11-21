@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_POST, require_GET, require_http_methods, require_safe
 from django.contrib.auth.decorators import login_required
-from .models import Community_review, Community_comment
+from .models import Community_review, Community_comment, Genre
 from .forms import Community_reviewForm, Community_commentForm
 import requests
 from bs4 import BeautifulSoup
@@ -103,3 +103,24 @@ def onair(request):
 
 def recommend(request):
     return render(request, 'community/recommend.html')
+
+def choose(request):
+    genres = Genre.objects.all()
+    context = {
+            'genres':genres,
+        }
+    return render(request, 'community/choose.html', context)
+
+def like_choose(request, username, id):
+    genres = get_object_or_404(Genre, pk=id)
+    print(request)
+    if genres.like_users.filter(id=request.user.pk).exists():
+        genres.like_users.remove(request.user)
+        genres.save()
+        print('aa')
+    else:
+        genres.like_users.add(request.user)
+        genres.save()
+        print('bb')
+    print(genres.like_users.all())
+    return redirect('community:choose')

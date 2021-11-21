@@ -67,18 +67,29 @@ def follow(request, pk):
 # follow() got an unexpected keyword argument 'username'
 # typeerror - pk가 와야하는데 username들어옴
 # 'User' object has no attribute 'followers'
-def prefer(request, username, id):
-    genre = User_genre.ids
+def prefer(request, username, pk, id):
+    genre = User_genre.like_genres
+    
+    tmd = username
     User = get_user_model()
     profile_user = get_object_or_404(User, username=username)
-    genres = GENRE
     
-    for i in range(len(genre)):
-        if genre[i]['id'] == id:
-            if genre[i]['isprefer'] == True:
-                genre[i]['isprefer'] = False
-            else:
-                genre[i]['isprefer'] = True
-    print(genre)
-
+    # for i in range(len(genre)):
+    #     if genre[i]['id'] == id:
+    #         if genre[i]['isprefer'] == True:
+    #             genre[i]['isprefer'] = False
+    #         else:
+    #             genre[i]['isprefer'] = True
+    
+    print(pk)
+    if id in profile_user.like_genres.all():
+        profile_user.like_genres.remove(id)
+        profile_user.save()
+    else:
+        profile_user.like_genres.add(id)
+        profile_user.save()
+    
+    
+    
     return redirect('accounts:profile', profile_user.username)
+

@@ -11,8 +11,12 @@ class User(AbstractUser):
     followings = models.ManyToManyField('self', related_name='followers', symmetrical=False)
     # related_name : 역참조시 이름 바꿈
 
+
+
 class User_genre(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    like_genres = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name="like_genres", blank=True)
+    like_genres_count = models.PositiveIntegerField(default=0)
     ids = [
     {
         "id": 10770,

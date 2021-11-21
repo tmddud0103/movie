@@ -19,10 +19,22 @@
 
 </form>
 </div>
+  
+    {% if usergenre.id_10770 == True %}
+      <button type="submit" class="btn btn-info btn-lg" id="inlineCheckbox{{ids.id}}" autocomplete="on">
+      {{usergenre.id_10770}}</button>
+    {% else %}
+      <button type="submit" class="btn btn-light btn-lg" id="inlineCheckbox{{ids.id}}" autocomplete="on">
+      {{usergenre.id_10770}}</button>
+    {% endif %}
+  
+  {{usergenre.id_10770}}
+  {{ id_10770 }}
   <hr>
+
   <div class="row m-0 my-5 row-cols-1 row-cols-md-6 g-3">
   {% for ids in usergenre.ids %} 
-    <form action="{% url 'accounts:prefer' profile_user.username ids.id %}" method="post">
+    <form action="{% url 'accounts:prefer' profile_user.username profile_user.id ids.id %}" method="post">
       {% csrf_token %}
       {% if ids.isprefer == True %}
         <button type="submit" class="btn btn-info btn-lg" id="inlineCheckbox{{ids.id}}" autocomplete="on">
