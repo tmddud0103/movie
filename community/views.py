@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_POST, require_GET, require_http_methods, require_safe
 from django.contrib.auth.decorators import login_required
-from .models import Community_review, Community_comment, Genre
+from .models import Community_review, Community_comment
+from movies.models import Genre
 from .forms import Community_reviewForm, Community_commentForm
 import requests
 from bs4 import BeautifulSoup
@@ -10,10 +11,10 @@ from bs4 import BeautifulSoup
 @require_safe
 def index(request):
     
-    community_reviews = Community_review.objects.all()
+    community_review = Community_review.objects.all()
 
     context = {
-        'community_reviews': community_reviews,
+        'community_review': community_review,
     }
 
     return render(request, 'community/index.html', context)

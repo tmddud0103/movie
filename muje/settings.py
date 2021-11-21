@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'community',
     'accounts',
+    'movies',
     'bootstrap5',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -52,7 +53,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'movie.urls'
+ROOT_URLCONF = 'muje.urls'
 
 TEMPLATES = [
     {
@@ -70,7 +71,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'movie.wsgi.application'
+WSGI_APPLICATION = 'muje.wsgi.application'
 
 
 # Database
