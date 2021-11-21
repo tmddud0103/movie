@@ -10,10 +10,10 @@ from bs4 import BeautifulSoup
 @require_safe
 def index(request):
     
-    community_reviews = Community_review.objects.all()
+    community_review = Community_review.objects.all()
 
     context = {
-        'community_reviews': community_reviews,
+        'community_review': community_review,
     }
 
     return render(request, 'community/index.html', context)

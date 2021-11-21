@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block body %}
+  <div class="row gx-3 gx-lg-5">
+  {% for movie in movie_data %}
+    <div class="col-md-3 mb-5">
+      <div class="card h-100">
+        <a href="{% url 'community:detail' movie.pk %}" class="text-decoration-none">
+          <div class="card-body">
+          <h2 class="card-title overflow-hidden">{{movie.title}}</h2>
+          <img src="https://image.tmdb.org/t/p/w400/{{movie.poster_path}}" class="card-img-top" alt="..." width="400">
+          <div class="d-flex justify-content-center small text-warning mb-2">
+            <div class="bi-star-fill"></div>
+            <div class="bi-star-fill"></div>
+            <div class="bi-star-fill"></div>
+            <div class="bi-star-fill"></div>
+            <div class="bi-star-fill"></div>
+          </div>
+          <p class="card-text">{{movie.vote_average}}</p>
+          <p class="card-text">{{movie.release_date}}</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+{% endblock %}
