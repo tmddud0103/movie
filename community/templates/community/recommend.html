@@ -18,7 +18,7 @@
                         <img src="https://image.tmdb.org/t/p/w500{{value.poster_path}}" class="h-100 card-img-top poster-img" alt="...">
                       </div>
                       <div class="desc position-absolute w-100 h-100 text-center">
-                        <div class="position-absolute" OnClick="location.href ='{% url 'community:recommend_detail' value.pk %}'" style="top: 0; bottom: 3.5rem; width: 100%;"></div>
+                        <div class="position-absolute" OnClick="location.href ='{% url 'movies:detail' value.pk %}'" style="top: 0; bottom: 3.5rem; width: 100%;"></div>
                         <div class="card-title text-truncate"  style="background-color: rgba(86, 189, 190, 0.5); font-size:calc(12px + 1vw); padding: 3vw 0; width: 100%;">{{ value.title }}</div>
                         <div class="text-truncate" style="font-size:calc(8px + 1vw); padding: 1vw 0 0;">평점: {{ value.vote_average }}</div>
                       </div>

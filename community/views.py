@@ -150,12 +150,3 @@ def recommend(request):
     return render(request, 'community/recommend.html', context)
 
 
-def recommend_detail(request, pk):
-    movie_data = Movie_data.objects.all()
-    for movie in movie_data:
-        if movie.pk == pk:
-            movie_data = movie
-    context = {
-        'movie_data': movie_data
-    }
-    return render(request, 'community/recommend_detail.html', context)
