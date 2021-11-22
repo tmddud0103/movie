@@ -1,5 +1,135 @@
 {% extends 'base.html' %}
 
 {% block body %}
-  
+  {% if range > 0  %}
+    {% for like_genre in like_genres %}
+      <h3>{{like_genre.name}} 추천 영화</h3>
+      {% for key,values in genre.items %}
+        {% if key == like_genre.id %}   
+            {% comment %} <div class="wrap">
+            <div class="container-fluid"> {% endcomment %}
+            {% comment %} <div class="row flex-row flex-nowrap"> {% endcomment %}
+            <div class="col-12 col-lg-10">
+              <div class="row mt-5 m-0" style="width: 100%;">
+                {% for value in values %}
+                  <div class="col-12 col-md-4 mb-4" style="cursor:pointer;">
+                    <div class="card h-100 position-relative">
+                      <div class="imageDiv h-100" >
+                        <img src="https://image.tmdb.org/t/p/w500{{value.poster_path}}" class="h-100 card-img-top poster-img" alt="...">
+                      </div>
+                      <div class="desc position-absolute w-100 h-100 text-center">
+                        <div class="position-absolute" OnClick="location.href ='{% url 'community:recommend_detail' value.pk %}'" style="top: 0; bottom: 3.5rem; width: 100%;"></div>
+                        <div class="card-title text-truncate"  style="background-color: rgba(86, 189, 190, 0.5); font-size:calc(12px + 1vw); padding: 3vw 0; width: 100%;">{{ value.title }}</div>
+                        <div class="text-truncate" style="font-size:calc(8px + 1vw); padding: 1vw 0 0;">평점: {{ value.vote_average }}</div>
+                      </div>
+                    </div>
+
+                  </div> 
+                  <div id="bookmark"></div>
+                {% endfor %}
+              </div>
+            </div>
+            
+
+        {% endif %}
+      {% endfor %}
+      
+      
+      <p></p>
+    {% endfor %}
+  {% else %}
+    <h1>empty</h1>
+    <img src="../../photo/lion.gif" width="600">
+  {% endif %}
+  <style media="screen">
+   .wrap{
+     width: 1300px;
+     height: 600px;
+     overflow-x: scroll;
+     white-space:nowrap
+   }
+   .wrap img{
+       width:300px;
+       height:100%;
+   }
+  .b-panel::after {
+    content: "\f107";
+    color: #333;
+    right: 10px;
+    position: absolute;
+      font-family: "FontAwesome"
+  }
+
+  .b-panel[aria-expanded="true"]::after {
+    content: "\f106";
+  }
+
+  .imageDiv {
+    z-index: 1;
+  }
+
+  .card:hover .imageDiv {
+    z-index: 0;
+    opacity: 0.3;
+
+  }
+
+  .card {
+    transition: transform .3s;
+  }
+
+  .card:hover {
+    transform: scale(1.1);
+  }
+</style>
+
+<script>
+
+  for (var img of document.getElementsByClassName("poster-img")) {
+    if (img.src.slice(31, img.src.length).indexOf('/') !== 0) {
+      img.src = img.src.slice(31, img.src.length)
+    }
+  }
+
+
+  const likeBtns = document.querySelectorAll('.like-btn')
+  likeBtns.forEach(function (btn) {
+    btn.addEventListener('mouseover', function (event) {
+      btn.getElementsByTagName('i')[0].classList.add('animate__animated', 'animate__rubberBand')
+
+    })
+    btn.addEventListener('mouseout', function (event) {
+      btn.getElementsByTagName('i')[0].classList.remove('animate__animated', 'animate__rubberBand')
+
+    })
+    btn.addEventListener('click', function (event) {
+      axios.get(`/movies/${btn.dataset.pk}/like`)
+        .then(function (res) {
+          if (res.data.liked) {
+            btn.getElementsByTagName('i')[0].style.color = 'crimson'
+          } else {
+            btn.getElementsByTagName('i')[0].style.color = 'white'
+          }
+
+        })
+        .catch(function (err) {
+          console.log(err)
+        })
+    })
+  })
+  function getOffsetTop(el) {
+    var top = 0;
+    if (el.offsetParent) {
+      do {
+        top += el.offsetTop;
+      } while (el = el.offsetParent);
+      return [top];
+    }
+  }
+  window.scrollTo({top: getOffsetTop(document.getElementById("bookmark")), behavior:'smooth'});
+
+</script>
+
+
+
 {% endblock %}
