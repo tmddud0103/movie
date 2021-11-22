@@ -2,9 +2,12 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_POST, require_GET, require_http_methods, require_safe
 from django.contrib.auth.decorators import login_required
 from .models import Community_review, Community_comment
-from movies.models import Genre
+from movies.models import Genre, Movie_data
+from accounts.models import User
 from .forms import Community_reviewForm, Community_commentForm
 from bs4 import BeautifulSoup
+import requests
+import random
 # Create your views here.
 
 @require_safe
@@ -84,7 +87,6 @@ def onair(request):
     for i, title in enumerate(uls):
         temp = []
         tt = " ".join(title.get_text().split()[2:])
-        # print(tt)
         temp.extend([i + 1, tt])
         for j, title in enumerate(img):
             if temp[0] == j+1:
@@ -101,26 +103,59 @@ def onair(request):
         }
     return render(request, 'community/onair.html', context)
 
-def recommend(request):
-    return render(request, 'community/recommend.html')
-
 def choose(request):
     genres = Genre.objects.all()
+    profile_user = request.user
     context = {
             'genres':genres,
+            'profile_user' : profile_user,
         }
-    return render(request, 'community/choose.html', context)
+    return render(request, 'accounts/profile.html', context)
 
 def like_choose(request, username, id):
     genres = get_object_or_404(Genre, pk=id)
-    print(request)
     if genres.like_users.filter(id=request.user.pk).exists():
         genres.like_users.remove(request.user)
         genres.save()
-        print('aa')
     else:
         genres.like_users.add(request.user)
         genres.save()
-        print('bb')
     print(genres.like_users.all())
     return redirect('community:choose')
+
+
+def recommend(request):
+    user =  get_object_or_404(User, pk=request.user.id)
+    movie_data = Movie_data.objects.all()
+    like_genres = user.like_reviews.all()
+    genre_dict = {}
+    if len(like_genres)> 0:
+        for like_genre in like_genres:
+            genre_dict[like_genre.id] = []
+    for movie in movie_data:
+        # print(movie.genre_ids.all())
+        for key in genre_dict.keys():
+            if movie.genre_ids.filter(id=key):
+                genre_dict[key].append(movie)
+    for key, value in genre_dict.items():
+        if len(genre_dict[key]) > 5:
+            genre_dict[key] = random.sample(genre_dict[key], 5)
+        
+    context = {
+        'like_genres': like_genres, 
+        'range': len(like_genres),
+        'genre': genre_dict,
+    }
+
+    return render(request, 'community/recommend.html', context)
+
+
+def recommend_detail(request, pk):
+    movie_data = Movie_data.objects.all()
+    for movie in movie_data:
+        if movie.pk == pk:
+            movie_data = movie
+    context = {
+        'movie_data': movie_data
+    }
+    return render(request, 'community/recommend_detail.html', context)
