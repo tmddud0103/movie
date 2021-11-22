@@ -20,11 +20,9 @@ def index(request):
 def detail(request, pk):
 
     movie_data = get_object_or_404(Movie_data, pk=pk)
-
-    movie_data = movie_data.objects.filter(review_id=movie_data.pk)
     
     context = {
         'movie_data': movie_data,
     }
 
-    return render(request, 'community/detail.html', context)
+    return render(request, 'movies/detail.html', context)
