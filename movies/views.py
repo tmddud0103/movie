@@ -14,7 +14,7 @@ def index(request):
         'movie_data_all': movie_data_all,
     }
 
-    return render(request, 'community/index.html', context)
+    return render(request, 'movies/index.html', context)
 
 @login_required
 def detail(request, pk):

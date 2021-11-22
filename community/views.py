@@ -4,7 +4,6 @@ from django.contrib.auth.decorators import login_required
 from .models import Community_review, Community_comment
 from movies.models import Genre
 from .forms import Community_reviewForm, Community_commentForm
-import requests
 from bs4 import BeautifulSoup
 # Create your views here.
 

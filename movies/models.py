@@ -12,6 +12,7 @@ class Movie_data(models.Model):
     vote_average = models.FloatField()
     release_date = models.DateField()
     poster_path = models.TextField()
+    backdrop_path = models.TextField()
     video = models.TextField()
     genre_ids = models.ManyToManyField(Genre)
 
