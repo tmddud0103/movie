@@ -138,8 +138,8 @@ def recommend(request):
             if movie.genre_ids.filter(id=key):
                 genre_dict[key].append(movie)
     for key, value in genre_dict.items():
-        if len(genre_dict[key]) > 5:
-            genre_dict[key] = random.sample(genre_dict[key], 5)
+        if len(genre_dict[key]) > 6:
+            genre_dict[key] = random.sample(genre_dict[key], 6)
         
     context = {
         'like_genres': like_genres, 
