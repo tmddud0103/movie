@@ -8,16 +8,20 @@
     {{user}} {% endcomment %}
     {% comment %} {% for genreaaa in genre.like_users %}{{genreaaa}}{% endfor %} {% endcomment %}
     {% comment %} {{genre.like_users}} {% endcomment %}
+    
     <form action="{% url 'community:like_choose' user genre.id  %}" method="post">
       {% csrf_token %}
       {% if user in genre.like_users.all %}
-        <button type="submit" class="btn btn-info btn-lg" id="inlineCheckbox{{ids.id}}" autocomplete="on">
+        <button type="submit" class="btn btn-info btn-lg btnsize" id="inlineCheckbox{{ids.id}}" autocomplete="on">
         {{genre.name}}</button>
       {% else %}
-        <button type="submit" class="btn btn-light btn-lg" id="inlineCheckbox{{ids.id}}" autocomplete="on">
+        <button type="submit" class="btn btn-light btn-lg btnsize" id="inlineCheckbox{{ids.id}}" autocomplete="on">
         {{genre.name}}</button>
       {% endif %}
     </form>
   {% endfor %}
   </div>
+  <style>
+    .btnsize {width: 100%;}
+  </style>
       <hr>
