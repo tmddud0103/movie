@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 {% load bootstrap5 %}
 {% block body %}
-    <header class="masthead">
+    <div style="background: black">
+    <header class="">
         <div style="background-image: url('https://image.tmdb.org/t/p/w400//{{movie_data.backdrop_path}}'); background-repeat : no-repeat; background-size : cover;">
         <div class="bg-dark "style="--bs-bg-opacity: .9;">
-        <div class="container" style="text-align: center;">
+        <div class="" style="text-align: center; width: 100%">
             <img src="https://image.tmdb.org/t/p/w300/{{movie_data.poster_path}}" class="" alt="..." width="300" style="margin-top: 30px">
             <div class="d-flex justify-content-center small text-warning mb-2" style="margin-top: 20px">
                 <div class="bi-star-fill"></div>
@@ -23,11 +24,11 @@
     <section style="margin-top: 30px">
             <div class="container">
                 <div class="text-center">
-                    <h2 class="section-heading text-uppercase">Story</h2>
-                    <h3 class="section-subheading text-muted " style="width: 800px; margin: 0 auto">{{movie_data.overview}}</h3>
+                    <h2 class="text-light" style="font-family: 'BMEuljiro10yearslater'; margin-bottom: 20px" >Story</h2>
+                    <h3 class="section-subheading text-muted " style="width: 800px; margin: 0 auto; font-family: 'KoPubDotumMedium';">{{movie_data.overview}}</h3>
                 </div>
                 <div class="text-center" style="margin-top: 30px">
-                    <h2 class="section-heading text-uppercase">Trailer</h2>
+                    <h2 class="text-light" style="font-family: 'BMEuljiro10yearslater'; margin-bottom: 20px" >Trailer</h2>
                     <iframe   
                     class="embed-responsive-item"
                     src='https://www.youtube.com/embed/{{ movie_data.video }}'
@@ -558,4 +559,5 @@
             </div>
         </div>
   </form>
+  </div>
 {% endblock %}
