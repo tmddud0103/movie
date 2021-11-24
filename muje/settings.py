@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'community',
     'accounts',
     'movies',
+    'main',
     'bootstrap5',
     'django.contrib.admin',
     'django.contrib.auth',
