@@ -1,27 +1,26 @@
 {% extends 'base.html' %}
 
 {% block body %}
-  <div class="row gx-3 gx-lg-5">
-  {% for movie in movie_data_all %}
-    <div class="col-md-3 mb-5">
-      <div class="card h-100">
-        <a href="{% url 'movies:detail' movie.pk %}" class="text-decoration-none">
-          <div class="card-body">
-          <h2 class="card-title overflow-hidden">{{movie.title}}</h2>
-          <img src="https://image.tmdb.org/t/p/w400/{{movie.poster_path}}" class="card-img-top" alt="..." width="400">
-          <div class="d-flex justify-content-center small text-warning mb-2">
-            <div class="bi-star-fill"></div>
-            <div class="bi-star-fill"></div>
-            <div class="bi-star-fill"></div>
-            <div class="bi-star-fill"></div>
-            <div class="bi-star-fill"></div>
-          </div>
-          <p class="card-text">{{movie.vote_average}}</p>
-          <p class="card-text">{{movie.release_date}}</p>
-          </div>
-        </a>
-      </div>
+<!-- Header-->
+    <div style="background: black">
+    <div style="background-image: url('https://s3-us-west-2.amazonaws.com/prd-rteditorial/wp-content/uploads/2018/03/13153742/RT_300EssentialMovies_700X250.jpg'); height: 300px; background-repeat : no-repeat; background-size : cover;">
+    
     </div>
-  {% endfor %}
-  </div>
+    <!-- Section-->
+    <section class="py-5" sty>
+        <div class="container px-4 px-lg-5 mt-5">
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                {% for movie_data in movie_data_all%}
+                <a href="{% url 'movies:detail' movie_data.pk %}" class="text-decoration-none">
+                <div class="col mb-5">
+                    <div class="card" style="height: 380px">
+                        <img class="card-img-top" src="https://image.tmdb.org/t/p/w300/{{movie_data.poster_path}}" alt="..." style="min-height: 100%"/>
+                    </div>
+                </div>
+                </a>
+                {% endfor %}
+            </div>    
+        </div>
+    </section>
+    </div>
 {% endblock %}

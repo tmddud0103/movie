@@ -13,10 +13,10 @@ import random
 @require_safe
 def index(request):
     
-    community_review = Community_review.objects.all()
+    community_reviews = Community_review.objects.all()
 
     context = {
-        'community_review': community_review,
+        'community_reviews': community_reviews,
     }
 
     return render(request, 'community/index.html', context)
