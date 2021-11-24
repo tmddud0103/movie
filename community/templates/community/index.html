@@ -2,6 +2,7 @@
 
 {% block body %}
   <div style="">
+    <h2 style="text-align: center; margin-top: 20px">Community</h2>
     <table class="table table-dark table-striped position-relative top-0 start-50 translate-middle-x" style="margin-top: 20px; width: 80%">
       <thead>
         <tr>
@@ -13,9 +14,10 @@
       </thead>
       <tbody>
         {% for community_review in community_reviews %}
+        
         <tr>
           <th scope="row">{{community_review.pk}}</th>
-          <td>{{community_review.title}}</td>
+            <td style = "cursor:pointer;" onClick = "location.href='{% url 'community:detail' community_review.pk %}'">{{community_review.title}}</td>
           <td>{{community_review.user_id}}</td>
           <td>{{community_review.created_at}}</td>
         </tr>
