@@ -21,7 +21,18 @@
   <p>{{ community_review.content }}</p>
   <hr>
   {% for comment in community_comment %}
-    <p>{{comment.content}}</p>
+    <div class="d-flex">
+      <div style="margin: 0 10px">{{comment.user_id}} : </div>
+      <p>{{comment.content}}</p>
+      <div style="margin: 0 10px">작성일 : </div>
+      <p>{{comment.created_at}}</p>
+      {% if user == comment.user_id %}
+        <form action="{% url 'community:comment_delete' comment.pk%}" method="POST">
+          {% csrf_token %}
+          <input type="submit" class="btn btn-secondary" value="삭제" style="height: 70%; margin-left: 15px">
+        </form>
+      {% endif %}
+    </div>
   {% endfor %}
   <div>
   <form class="d-flex justify-content-center" action="{% url 'community:comments_create' community_review.pk %}" method="POST">
