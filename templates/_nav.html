@@ -1,4 +1,5 @@
-<nav class="navbar navbar-expand-lg" style="padding: 0.8rem 1rem; background: #3a3636">
+<nav class="navbar navbar-expand-lg" style="padding: 0.4rem 0.4rem; background: #3a3636">
+<div class="container-fluid">
   <a class="navbar-brand" href="{% url 'main:index' %}">
     <img src="../../photo/Muje2.gif" alt="" width="150" >
   </a>
@@ -6,42 +7,49 @@
     <span class="navbar-toggler-icon"></span>
   </button> {% endcomment %}
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav">
-      <ul class="navbar-nav">
+    {% comment %} <div class="navbar-nav"> {% endcomment %}
+      <ul class="navbar-nav fs-5 me-auto mb-lg-0">
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'community:onair' %}">Now OnAir</a>
+        <a class="nav-link" href="{% url 'community:onair' %}">현재 상영중</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'community:index' %}">community</a>
+        <a class="nav-link" href="{% url 'community:index' %}">커뮤니티</a>
       </li>
       {% if request.user.is_authenticated %}
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'accounts:logout' %}">Logout</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'movies:index' %}">Movie List</a>
+        <a class="nav-link" href="{% url 'movies:index' %}">영화 전체목록</a>
       </li>
       {% comment %} <li class="nav-item">
         <a class="nav-link" href="{% url 'accounts:profile' user.username %}">Profile</a>
       </li> {% endcomment %}
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'community:create' %}">Create</a>
+        <a class="nav-link" href="{% url 'community:create' %}">커뮤니티 글 쓰기</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'community:choose' %}">My profile</a>
+        <a class="nav-link" href="{% url 'community:recommend' %}">추천영화</a>
+      </li>
+      </ul>
+      <ul class="navbar-nav navbar-right fs-5 ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'community:choose' %}">나의 프로필</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'community:recommend' %}">Recommend Movie</a>
+        <a class="nav-link" href="{% url 'accounts:logout' %}">로그아웃</a>
       </li>
+      </ul>
+      
       {% else %}
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'accounts:signup' %}">Signup</a>
+      </ul>
+      <ul class="navbar-nav navbar-right fs-5 ml-auto">
+      <li class="nav-item ">
+        <a class="nav-link" href="{% url 'accounts:signup' %}">회원가입</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'accounts:login' %}">Login</a>
+        <a class="nav-link" href="{% url 'accounts:login' %}">로그인</a>
       </li>
       {% endif %}
     </ul>
-    </div>
+    {% comment %} </div> {% endcomment %}
+  </div>
   </div>
 </nav>

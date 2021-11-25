@@ -27,7 +27,7 @@ def login(request):
         if form.is_valid():
             user = form.get_user()
             auth_login(request, user)
-            return redirect('community:index')
+            return redirect('main:index')
     else:
         form = AuthenticationForm()
     context = {
@@ -37,7 +37,7 @@ def login(request):
 
 def logout(request):
     auth_logout(request)
-    return redirect('community:index')
+    return redirect('main:index')
 
 
 def profile(request, username):
