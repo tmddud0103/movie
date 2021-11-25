@@ -41,3 +41,14 @@ def detail(request, pk):
     }
 
     return render(request, 'movies/detail.html', context)
+
+@login_required
+@require_POST
+def my_vote(request, pk):
+    
+    movie_data = get_object_or_404(Movie_data, pk=pk)
+    movie_data.my_vote = request.POST['my_vote']
+
+    movie_data.save()
+    return redirect('movies:detail', pk)
+

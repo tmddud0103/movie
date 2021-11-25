@@ -61,6 +61,15 @@ def create(request):
 
 @login_required
 @require_POST
+def delete(request, pk):
+    
+    review = get_object_or_404(Community_review, pk=pk)
+    review.delete()
+
+    return redirect('community:index')
+
+@login_required
+@require_POST
 def comments_create(request, pk):
     
     community_review = get_object_or_404(Community_review, pk=pk)

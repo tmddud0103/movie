@@ -21,8 +21,34 @@
                 <div class="text-center" style="margin-bottom: 20px">
                     <h2 class="fs-2 fw-bolder text-light">{{movie_data.title}}</h2>
                 </div>
-                <h2>.</h2>
+                <form action="{% url 'movies:my_vote' movie_data.pk %}" method="POST" class="d-flex justify-content-center">
+                    {% csrf_token %}
+                    <select name="my_vote" class="form-select form-select-sm bg-secondary text-white center" aria-label=".form-select-sm example" style="width: 100px;">
+                        {% if movie_data.my_vote == None %}
+                            <option value="None" selected>점수</option>
+                        {% else %}
+                            {% if movie_data.my_vote == 0 %}
+                                <option value="0" selected>점수</option>
+                            {% else %}
+                                <option selected>{{movie_data.my_vote}}</option>
+                            {% endif %}
+                        {% endif %}
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="0">취소</option>
+                    </select>
+                    <input type="submit" class="btn btn-secondary" value="등록" style="height: 70%; margin-left: 15px">
+                <form>
             </div>
+            <div>.</div>
         </header>
         <section style="margin-top: 30px">
             <div class="container">

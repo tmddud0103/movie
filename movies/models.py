@@ -15,6 +15,7 @@ class Movie_data(models.Model):
     backdrop_path = models.TextField()
     video = models.TextField()
     genre_ids = models.ManyToManyField(Genre)
+    my_vote = models.IntegerField(null=True)
 
 class Combinding(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
