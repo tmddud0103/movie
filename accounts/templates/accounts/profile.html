@@ -3,7 +3,8 @@
 
 {% block body %}
 {% comment %} 🐹 {% endcomment %}
-<h1>{{ profile_user.username }}'s profile</h1>
+<div class="container mt-5">
+<h1 class="mt-5, ml-5">{{ profile_user.username }} 님의 프로필 페이지</h1>
 <div class="d-flex align-items-center">
 <p style="margin:3.5rem; margin-left:0;">팔로워: {{ profile_user.followers.all|length }} | 팔로우: {{ profile_user.followings.all|length }} </p>
 {% if user != profile_user %}
@@ -18,6 +19,7 @@
   {% endif %}
 </form>
 {% endif %}
+</div>
 </div>
   
     {% comment %} {% if usergenre.id_10770 == True %}
