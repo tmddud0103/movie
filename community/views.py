@@ -63,8 +63,8 @@ def create(request):
 @require_POST
 def delete(request, pk):
     
-    review = get_object_or_404(Community_review, pk=pk)
-    review.delete()
+    community_review = get_object_or_404(Community_review, pk=pk)
+    community_review.delete()
 
     return redirect('community:index')
 
@@ -85,6 +85,14 @@ def comments_create(request, pk):
 
     return redirect('community:index')
 
+@login_required
+@require_POST
+def comment_delete(request, pk):
+    
+    community_comment = get_object_or_404(Community_comment, pk=pk)
+    community_comment.delete()
+
+    return redirect('community:index')
 
 def onair(request):
     url = 'https://movie.naver.com/movie/running/current.naver'
