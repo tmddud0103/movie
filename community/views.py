@@ -134,6 +134,7 @@ def like_choose(request, username, id):
 
 
 def recommend(request):
+    
     user =  get_object_or_404(User, pk=request.user.id)
     movie_data = Movie_data.objects.all()
     like_genres = user.like_reviews.all()
@@ -141,19 +142,42 @@ def recommend(request):
     if len(like_genres)> 0:
         for like_genre in like_genres:
             genre_dict[like_genre.id] = []
+    my_vote = []
+    personal_recommend = []
     for movie in movie_data:
         # print(movie.genre_ids.all())
+        if (movie.my_vote != None or 0) and movie.my_vote >=5 :
+            my_vote.append(movie)
+
         for key in genre_dict.keys():
             if movie.genre_ids.filter(id=key):
                 genre_dict[key].append(movie)
+            
+    
     for key, value in genre_dict.items():
         if len(genre_dict[key]) > 6:
             genre_dict[key] = random.sample(genre_dict[key], 6)
         
+    if len(my_vote) != 0:
+        id_list = {}
+        for vote in my_vote:
+            k = vote.genre_ids.filter()
+            for i in k:
+                id_list[i.pk] = 1
+        for movie in movie_data:
+            for key in id_list.keys():
+                if movie.genre_ids.filter(id=key) and movie.vote_average > 6:
+                    personal_recommend.append(movie)
+    # my_vote = movie_data.my_vote
+    if len(personal_recommend) > 6:
+            personal_recommend = random.sample(personal_recommend, 6)
+
     context = {
         'like_genres': like_genres, 
         'range': len(like_genres),
         'genre': genre_dict,
+        'my_vote':my_vote,
+        'personal_recommend':personal_recommend,
     }
 
     return render(request, 'community/recommend.html', context)
