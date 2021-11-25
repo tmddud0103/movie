@@ -2,27 +2,30 @@
 
 {% block body %}
   <div style="">
-    <h2 style="text-align: center; margin-top: 20px">Community</h2>
-    <table class="table table-dark table-striped position-relative top-0 start-50 translate-middle-x" style="margin-top: 20px; width: 80%">
-      <thead>
-        <tr>
-          <th scope="col">글 번호</th>
-          <th scope="col">제목</th>
-          <th scope="col">작성자</th>
-          <th scope="col">작성일</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for community_review in community_reviews %}
-        
-        <tr>
-          <th scope="row">{{community_review.pk}}</th>
-            <td style = "cursor:pointer;" onClick = "location.href='{% url 'community:detail' community_review.pk %}'">{{community_review.title}}</td>
-          <td>{{community_review.user_id}}</td>
-          <td>{{community_review.created_at}}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+    <div class="position-relative top-0 start-50 translate-middle-x" style="text-align: center; margin-top: 20px; width: 80%; font-family: 'KOTRALEAP';">
+      <h2 style="">Community</h2>
+      <table class="table table-dark table-striped" style="margin-top: 20px;">
+        <thead>
+          <tr>
+            <th scope="col">글 번호</th>
+            <th scope="col">제목</th>
+            <th scope="col">작성자</th>
+            <th scope="col">작성일</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for community_review in community_reviews %}
+          
+          <tr>
+            <th scope="row">{{community_review.pk}}</th>
+              <td style = "cursor:pointer;" onClick = "location.href='{% url 'community:detail' community_review.pk %}'">{{community_review.title}}</td>
+            <td>{{community_review.user_id}}</td>
+            <td>{{community_review.created_at}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <button type="button" class="btn btn-secondary" onclick = "location.href = '{% url 'community:create' %}'">글쓰기</button>
+    </div>
   </div>
 {% endblock %}
