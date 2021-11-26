@@ -182,7 +182,7 @@ def recommend(request):
 
     context = {
         'like_genres': like_genres, 
-        'range': len(like_genres),
+        'range': len(like_genres) + len(personal_recommend),
         'genre': genre_dict,
         'my_vote':my_vote,
         'personal_recommend':personal_recommend,

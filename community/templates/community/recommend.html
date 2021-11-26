@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block body %}
+{% if range > 0  %}
 <div clas="mt-5">
   <h3 class="mt-4">개인 추천 영화</h3>
 </div> 
@@ -24,7 +25,7 @@
     </div>
   </div>
         
-  {% if range > 0  %}
+  {% comment %} {% if range > 0  %} {% endcomment %}
     {% for like_genre in like_genres %}
     <div clas="mt-5">
       <h3 class="mt-4">{{like_genre.name}} 추천 영화</h3>
@@ -64,8 +65,8 @@
     {% endfor %}
   {% else %}
   <div class="text-center mt-5">
-    <h1>선호하는 영화가 존재하지 않습니다...</h1>
-    <h2>'나의 프로필'에서 선호하는 영화 장르를 1개 이상 체크해주세요!</h2>
+    <h1>선호하는 영화 장르가 존재하지 않습니다...</h1>
+    <h2>'나의 프로필'에서 선호하는 영화 장르를 1개 이상 체크하거나, 좋아하는 영화에 높은 별점을 체크해주세요!</h2>
     <img src="../../photo/lion.gif" width="600">
   </div>
   {% endif %}
